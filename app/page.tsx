@@ -1,103 +1,146 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
+import { HeroSection } from "@/components/hero-section";
+import { FeatureSection } from "@/components/feature-section";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="min-h-screen flex flex-col">
+      <Navbar />
+      <HeroSection />
+      <FeatureSection />
+      <section className="py-16 px-4 md:px-8 bg-muted">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            Explore Our Services
+          </h2>
+          <Tabs defaultValue="market" className="w-full">
+            <TabsList className="grid grid-cols-3 md:grid-cols-9 mb-8">
+              <TabsTrigger value="market">Market Prices</TabsTrigger>
+              <TabsTrigger value="weather">Weather</TabsTrigger>
+              <TabsTrigger value="schemes">Schemes</TabsTrigger>
+              <TabsTrigger value="finance">Finance</TabsTrigger>
+              <TabsTrigger value="marketplace">Marketplace</TabsTrigger>
+              <TabsTrigger value="equipment">Equipment</TabsTrigger>
+              <TabsTrigger value="training">Training</TabsTrigger>
+              <TabsTrigger value="storage">Storage</TabsTrigger>
+              <TabsTrigger value="supply">Supply Chain</TabsTrigger>
+            </TabsList>
+            <TabsContent value="market" className="space-y-4">
+              <Card>
+                <CardContent className="pt-6">
+                  <h3 className="text-xl font-semibold mb-4">
+                    Real-Time Market Prices & Direct Selling
+                  </h3>
+                  <p className="mb-4">
+                    Get live updates on commodity prices from mandis and e-NAM.
+                    Connect directly with buyers to reduce dependency on
+                    middlemen.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                    <div className="bg-card p-4 rounded-lg shadow">
+                      <h4 className="font-medium mb-2">Today's Prices</h4>
+                      <div className="space-y-2">
+                        <div className="flex justify-between">
+                          <span>Wheat (Mandi Avg.)</span>
+                          <span className="font-semibold">₹2,150/quintal</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Rice (Basmati)</span>
+                          <span className="font-semibold">₹3,450/quintal</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Soybean</span>
+                          <span className="font-semibold">₹4,200/quintal</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-card p-4 rounded-lg shadow">
+                      <h4 className="font-medium mb-2">Price Trends</h4>
+                      <div className="h-40 flex items-center justify-center">
+                        <p className="text-muted-foreground">
+                          Price trend chart will appear here
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <Button asChild className="mt-6">
+                    <Link href="/market">View All Market Data</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="weather" className="space-y-4">
+              <Card>
+                <CardContent className="pt-6">
+                  <h3 className="text-xl font-semibold mb-4">
+                    Weather & Crop Advisory
+                  </h3>
+                  <p className="mb-4">
+                    AI-driven weather forecasts with local language support.
+                    Receive crop recommendations based on soil health and
+                    climate patterns.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                    <div className="bg-card p-4 rounded-lg shadow">
+                      <h4 className="font-medium mb-2">Today's Weather</h4>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-3xl font-bold">32°C</p>
+                          <p className="text-muted-foreground">Partly Cloudy</p>
+                        </div>
+                        <div>
+                          <p>
+                            <span className="font-medium">Humidity:</span> 65%
+                          </p>
+                          <p>
+                            <span className="font-medium">Wind:</span> 12 km/h
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-card p-4 rounded-lg shadow">
+                      <h4 className="font-medium mb-2">Crop Advisory</h4>
+                      <p className="text-sm">
+                        Based on current weather patterns, consider delaying
+                        irrigation for wheat crops. Ideal time for sowing
+                        mustard in northern regions.
+                      </p>
+                    </div>
+                  </div>
+                  <Button asChild className="mt-6">
+                    <Link href="/weather">View Detailed Forecast</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            {/* Other tab contents would follow the same pattern */}
+            <TabsContent value="schemes" className="space-y-4">
+              <Card>
+                <CardContent className="pt-6">
+                  <h3 className="text-xl font-semibold mb-4">
+                    Government Schemes & Subsidy Assistance
+                  </h3>
+                  <p>
+                    Access a centralized portal to check eligibility and apply
+                    for government schemes. Use our AI chatbot for easy
+                    navigation and document verification.
+                  </p>
+                  <Button asChild className="mt-6">
+                    <Link href="/schemes">Explore Schemes</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            {/* Additional tab contents would be implemented similarly */}
+          </Tabs>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+      <Footer />
+    </main>
   );
 }
