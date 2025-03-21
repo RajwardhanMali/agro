@@ -17,6 +17,13 @@ import {
   Loader2,
 } from "lucide-react";
 
+// Define the AdvisoryItem type
+type AdvisoryItem = {
+  crop: string;
+  stage: string;
+  advice: string;
+};
+
 export function WeatherDashboard() {
   const [location, setLocation] = useState("New Delhi");
   const [weatherData, setWeatherData] = useState<any>(null);
@@ -267,17 +274,19 @@ export function WeatherDashboard() {
                   </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {weatherData.advisory.map((item, index) => (
-                    <Card key={index}>
-                      <CardContent className="pt-6">
-                        <h4 className="font-semibold mb-1">{item.crop}</h4>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Growth Stage: {item.stage}
-                        </p>
-                        <p className="text-sm">{item.advice}</p>
-                      </CardContent>
-                    </Card>
-                  ))}
+                  {weatherData.advisory.map(
+                    (item: AdvisoryItem, index: number) => (
+                      <Card key={index}>
+                        <CardContent className="pt-6">
+                          <h4 className="font-semibold mb-1">{item.crop}</h4>
+                          <p className="text-sm text-muted-foreground mb-2">
+                            Growth Stage: {item.stage}
+                          </p>
+                          <p className="text-sm">{item.advice}</p>
+                        </CardContent>
+                      </Card>
+                    )
+                  )}
                 </div>
               </div>
             </TabsContent>

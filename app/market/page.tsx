@@ -23,8 +23,8 @@ import { useState } from "react";
 import trendsData from "@/constants/trends.json";
 
 export default function MarketPage() {
-  const [selectedState, setSelectedState] = useState("all");
-  const [selectedCommodity, setSelectedCommodity] = useState("all");
+  const [selectedState, setSelectedState] = useState("All States");
+  const [selectedCommodity, setSelectedCommodity] = useState("");
   const [district, setDistrict] = useState("");
   const [appliedFilters, setAppliedFilters] = useState({
     state: "All States",
@@ -147,7 +147,7 @@ export default function MarketPage() {
               <div className="h-[250px]">
                 <MarketTrends
                   commodity={
-                    selectedCommodity === "all" ? "wheat" : selectedCommodity
+                    selectedCommodity === "" ? "wheat" : selectedCommodity
                   }
                 />
               </div>
@@ -215,7 +215,7 @@ export default function MarketPage() {
             </div>
             <MarketPriceTable
               state={appliedFilters.state}
-              commodity={appliedFilters.commodity.toLowerCase()}
+              commodity={appliedFilters.commodity}
               district={appliedFilters.district}
             />
           </TabsContent>

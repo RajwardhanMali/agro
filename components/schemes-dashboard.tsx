@@ -151,10 +151,12 @@ export function SchemesDashboard() {
   });
 
   // Get unique categories for filter
-  const categories = [...new Set(schemes.map((scheme) => scheme.category))];
+  const categories = Array.from(
+    new Set(schemes.map((scheme) => scheme.category))
+  );
 
   // Get unique states for filter
-  const states = [...new Set(schemes.map((scheme) => scheme.state))];
+  const states = Array.from(new Set(schemes.map((scheme) => scheme.state)));
 
   return (
     <div className="space-y-6">

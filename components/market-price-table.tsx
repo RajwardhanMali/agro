@@ -29,7 +29,17 @@ export function MarketPriceTable({
   commodity,
   district,
 }: MarketPriceTableProps) {
-  const [data, setData] = useState<any>([]);
+  interface MarketPrice {
+    market: string;
+    commodity: string;
+    variety: string;
+    min_price: number;
+    max_price: number;
+    modal_price: number;
+    arrival_date: string;
+  }
+
+  const [data, setData] = useState<MarketPrice[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 5;
@@ -97,7 +107,6 @@ export function MarketPriceTable({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Mandi</TableHead>
             <TableHead>Commodity</TableHead>
             <TableHead>Variety</TableHead>
             <TableHead className="text-right">Min Price (₹/q)</TableHead>
