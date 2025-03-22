@@ -5,20 +5,27 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ModeToggle } from "./mode-toggle";
-import { Menu, User } from "lucide-react";
+import { Menu, User, ChevronDown } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
 
   const navItems = [
-    { name: "Home", href: "/" },
     { name: "Market Prices", href: "/market" },
     { name: "Weather", href: "/weather" },
     { name: "Schemes", href: "/schemes" },
-    { name: "Finance", href: "/finance" },
     { name: "Marketplace", href: "/marketplace" },
+  ];
+
+  const moreItems = [
     { name: "Equipment", href: "/equipment" },
     { name: "Training", href: "/training" },
   ];
@@ -43,28 +50,48 @@ export function Navbar() {
               {item.name}
             </Link>
           ))}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="flex items-center gap-1">
+                More <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {moreItems.map((item) => (
+                <DropdownMenuItem key={item.name} asChild>
+                  <Link href={item.href}>{item.name}</Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
 
         <div className="flex items-center gap-4">
           <ModeToggle />
           {session ? (
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
-                  <User className="h-5 w-5 text-primary" />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center gap-2 cursor-pointer">
+                  <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+                    <User className="h-5 w-5 text-primary" />
+                  </div>
+                  <span className="text-sm font-medium">
+                    {session.user?.name}
+                  </span>
                 </div>
-                <span className="text-sm font-medium">
-                  {session.user?.name}
-                </span>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => signOut({ callbackUrl: "/" })}
-              >
-                Logout
-              </Button>
-            </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-36">
+                <DropdownMenuItem
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="cursor-pointer"
+                >
+                  Logout
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  Profile
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <Button asChild className="hidden md:inline-flex">
               <Link href="/login">Login / Register</Link>
@@ -91,6 +118,18 @@ export function Navbar() {
                     {item.name}
                   </Link>
                 ))}
+                <div className="flex flex-col gap-2">
+                  {moreItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="text-sm font-medium transition-colors hover:text-primary"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
                 {session ? (
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">

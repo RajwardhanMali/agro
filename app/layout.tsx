@@ -20,6 +20,10 @@ export default function RootLayout({
   return (
     <AuthProvider>
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+          <script src="https://files.bpcontent.cloud/2025/03/22/12/20250322122332-BOC92L9X.js"></script>
+        </head>
         <body className={inter.className}>
           <ThemeProvider
             attribute="class"

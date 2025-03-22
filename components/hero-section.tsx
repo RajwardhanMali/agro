@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { getServerUser } from "@/lib/session";
 import Link from "next/link";
 
-export function HeroSection() {
+export async function HeroSection() {
+  const user = await getServerUser();
   return (
     <section className="relative py-20 md:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-green-50 to-yellow-50 dark:from-green-950 dark:to-yellow-950 -z-10" />
@@ -16,9 +18,13 @@ export function HeroSection() {
               support systems to enhance agricultural productivity and income.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" asChild>
-                <Link href="/register">Get Started</Link>
-              </Button>
+              {!user ? (
+                <Button size="lg" asChild>
+                  <Link href="/register">Get Started</Link>
+                </Button>
+              ) : (
+                <Button>Ai Chat Bot</Button>
+              )}
               <Button size="lg" variant="outline" asChild>
                 <Link href="/about">Learn More</Link>
               </Button>
