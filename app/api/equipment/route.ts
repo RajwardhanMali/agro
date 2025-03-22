@@ -4,18 +4,7 @@ import { NextResponse } from "next/server";
 import { Equipment } from "@/models/equipment";
 import { dbConnect } from "@/utils/dbConnect";
 import { getServerUser } from "@/lib/session";
-
-export const uploadImage = async (imagePath: string) => {
-  try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/upload`, {
-      method: "POST",
-      body: JSON.stringify({ path: imagePath }),
-    });
-    return res.json();
-  } catch (error) {
-    throw error;
-  }
-};
+import { uploadImage } from "@/lib/utils";
 
 export async function POST(req: Request) {
   const user = await getServerUser();
