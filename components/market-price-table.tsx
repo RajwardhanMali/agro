@@ -107,6 +107,7 @@ export function MarketPriceTable({
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead>Market</TableHead>
             <TableHead>Commodity</TableHead>
             <TableHead>Variety</TableHead>
             <TableHead className="text-right">Min Price (₹/q)</TableHead>

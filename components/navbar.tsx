@@ -1,14 +1,16 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { ModeToggle } from "./mode-toggle"
-import { Menu } from "lucide-react"
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ModeToggle } from "./mode-toggle";
+import { Menu, User } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession();
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -19,7 +21,7 @@ export function Navbar() {
     { name: "Marketplace", href: "/marketplace" },
     { name: "Equipment", href: "/equipment" },
     { name: "Training", href: "/training" },
-  ]
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -33,7 +35,11 @@ export function Navbar() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
           {navItems.map((item) => (
-            <Link key={item.name} href={item.href} className="text-sm font-medium transition-colors hover:text-primary">
+            <Link
+              key={item.name}
+              href={item.href}
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
               {item.name}
             </Link>
           ))}
@@ -41,9 +47,29 @@ export function Navbar() {
 
         <div className="flex items-center gap-4">
           <ModeToggle />
-          <Button asChild className="hidden md:inline-flex">
-            <Link href="/login">Login / Register</Link>
-          </Button>
+          {session ? (
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+                  <User className="h-5 w-5 text-primary" />
+                </div>
+                <span className="text-sm font-medium">
+                  {session.user?.name}
+                </span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => signOut({ callbackUrl: "/" })}
+              >
+                Logout
+              </Button>
+            </div>
+          ) : (
+            <Button asChild className="hidden md:inline-flex">
+              <Link href="/login">Login / Register</Link>
+            </Button>
+          )}
 
           {/* Mobile Navigation */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -65,17 +91,39 @@ export function Navbar() {
                     {item.name}
                   </Link>
                 ))}
-                <Button asChild>
-                  <Link href="/login" onClick={() => setIsOpen(false)}>
-                    Login / Register
-                  </Link>
-                </Button>
+                {session ? (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+                        <User className="h-5 w-5 text-primary" />
+                      </div>
+                      <span className="text-sm font-medium">
+                        {session.user?.name}
+                      </span>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setIsOpen(false);
+                        signOut({ callbackUrl: "/" });
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  </div>
+                ) : (
+                  <Button asChild>
+                    <Link href="/login" onClick={() => setIsOpen(false)}>
+                      Login / Register
+                    </Link>
+                  </Button>
+                )}
               </div>
             </SheetContent>
           </Sheet>
         </div>
       </div>
     </header>
-  )
+  );
 }
-
