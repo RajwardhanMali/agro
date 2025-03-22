@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { useSession } from "next-auth/react";
 
-export default function MarketPage() {
+export default function MarketPlace() {
   const states = [
     "All States",
     "Maharashtra",
@@ -45,54 +45,22 @@ export default function MarketPage() {
       <Navbar />
       <div className="container mx-auto py-8 px-4 md:px-6">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Market Prices & Trading</h1>
+          <h1 className="text-3xl font-bold mb-2">Market Place For Trading</h1>
           <p className="text-muted-foreground">
-            Get real-time market prices, trends, and connect directly with
-            buyers.
+            Farmers can list there produce and sell directly to vendors. Our job
+            is to connect the farmers with the vendors.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <MarketOverview />
-          <Card className="lg:col-span-2">
-            <CardHeader className="pb-3">
-              <CardTitle>Price Trends</CardTitle>
-              <CardDescription>
-                5-years price movement for selected commodity
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-end mb-4">
-                <Select onValueChange={(value) => setSelectedCommodity(value)}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select Commodity" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {commodities.map((commodity) => (
-                      <SelectItem value={commodity} key={commodity}>
-                        {commodity}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <MarketTrends commodity={selectedCommodity} />
-            </CardContent>
-          </Card>
-        </div>
-        <PricesTab states={states} commodities={commodities} />
-        {/* <Tabs defaultValue="prices" className="mb-8">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="prices">Mandi Prices</TabsTrigger>
+        <Tabs defaultValue="sellers" className="mb-8">
+          <TabsList className="grid w-full grid-cols-1">
             {session?.user.role === "vendor" ? (
               <TabsTrigger value="sellers">Sellers</TabsTrigger>
             ) : (
               <TabsTrigger value="sell">Sell Your Produce</TabsTrigger>
             )}
           </TabsList>
-          <TabsContent value="prices">
-            <PricesTab states={states} commodities={commodities} />
-          </TabsContent>
+
           {session?.user.role === "vendor" ? (
             <TabsContent value="sellers">
               <SellersTab />
@@ -102,7 +70,7 @@ export default function MarketPage() {
               <SellTab commodities={commodities} />
             </TabsContent>
           )}
-        </Tabs> */}
+        </Tabs>
       </div>
       <Footer />
     </main>

@@ -27,7 +27,7 @@ export function Navbar() {
 
   const moreItems = [
     { name: "Equipment", href: "/equipment" },
-    { name: "Training", href: "/training" },
+    { name: "Insights", href: "/insights" },
   ];
 
   return (

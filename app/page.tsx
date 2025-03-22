@@ -7,8 +7,7 @@ import { FeatureSection } from "@/components/feature-section";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
-export default  function Home() {
- 
+export default function Home() {
   return (
     <main className="min-h-screen flex flex-col">
       <Navbar />
@@ -27,7 +26,7 @@ export default  function Home() {
               <TabsTrigger value="finance">Finance</TabsTrigger>
               <TabsTrigger value="marketplace">Marketplace</TabsTrigger>
               <TabsTrigger value="equipment">Equipment</TabsTrigger>
-              <TabsTrigger value="training">Training</TabsTrigger>
+              <TabsTrigger value="Insights">Insights</TabsTrigger>
               <TabsTrigger value="storage">Storage</TabsTrigger>
               <TabsTrigger value="supply">Supply Chain</TabsTrigger>
             </TabsList>
