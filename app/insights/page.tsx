@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { news_key, youtube_key } from "@/lib/config";
 
 interface NewsArticle {
   title: string;
@@ -38,7 +39,7 @@ export default function InsightsPage() {
 
         // Fetch agriculture-related news
         const newsResponse = await fetch(
-          `https://newsapi.org/v2/everything?q=india+crops+agriculture&page=${newsPage}&pageSize=6&apiKey=ecde43627fec4eb98a64d6aae96b697e`
+          `https://newsapi.org/v2/everything?q=india+crops+agriculture&page=${newsPage}&pageSize=6&apiKey=${news_key}`
         );
         const newsData = await newsResponse.json();
         if (newsData.articles.length === 0) {
@@ -56,7 +57,7 @@ export default function InsightsPage() {
         // Fetch trending YouTube videos on agriculture (only on the first load)
         if (newsPage === 1) {
           const youtubeResponse = await fetch(
-            `https://www.googleapis.com/youtube/v3/search?part=snippet&q=india+agriculture+news&type=video&maxResults=6&key=AIzaSyAb_B8OusCFdlv95SZhpSaFWesTCEtWKy8`
+            `https://www.googleapis.com/youtube/v3/search?part=snippet&q=india+agriculture+news&type=video&maxResults=6&key=${youtube_key}`
           );
           const youtubeData = await youtubeResponse.json();
           setVideos(youtubeData.items || []);
