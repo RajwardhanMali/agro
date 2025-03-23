@@ -1,6 +1,5 @@
 "use client";
-
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -9,29 +8,51 @@ import {
   Cloud,
   CloudRain,
   Droplets,
-  Thermometer,
   Wind,
   Sun,
   CloudSun,
   Umbrella,
   Loader2,
 } from "lucide-react";
+import { getWeatherAdvisory } from "@/lib/gemini";
 
-// Define the AdvisoryItem type
+// Define types
 type AdvisoryItem = {
   crop: string;
   stage: string;
   advice: string;
 };
 
+type SoilMoistureItem = {
+  field: string;
+  crop: string;
+  moisture: number;
+};
+
+type IrrigationRecommendation = {
+  field: string;
+  crop: string;
+  advice: string;
+};
+
+type WeatherAdvisory = {
+  advisory: AdvisoryItem[];
+  irrigation: {
+    soilMoisture: SoilMoistureItem[];
+    recommendations: IrrigationRecommendation[];
+  };
+};
+
 export function WeatherDashboard() {
   const [location, setLocation] = useState("New Delhi");
   const [weatherData, setWeatherData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [advisory, setAdvisory] = useState<WeatherAdvisory | null>(null);
 
   useEffect(() => {
     fetchWeather();
   }, []);
+
   const fetchWeather = async () => {
     setLoading(true);
     try {
@@ -45,7 +66,7 @@ export function WeatherDashboard() {
       );
       const forecastData = await forecastResponse.json();
 
-      setWeatherData({
+      const weatherInfo = {
         current: {
           location: data.name,
           temperature: data.main.temp,
@@ -63,43 +84,15 @@ export function WeatherDashboard() {
           condition: item.weather[0].description,
           icon: getWeatherIcon(item.weather[0].main),
         })),
-        alerts: [
-          {
-            type: "Heat Wave",
-            severity: "Moderate",
-            message:
-              "Temperatures expected to remain above 32°C for the next 5 days. Ensure adequate hydration for crops.",
-            icon: <Thermometer className="h-5 w-5 text-red-500" />,
-          },
-          {
-            type: "Rain",
-            severity: "Low",
-            message:
-              "Light rainfall expected on Friday. Plan harvesting activities accordingly.",
-            icon: <CloudRain className="h-5 w-5 text-blue-500" />,
-          },
-        ],
-        advisory: [
-          {
-            crop: "Wheat",
-            stage: "Harvesting",
-            advice:
-              "Ideal conditions for harvesting in the next 3 days. Delay irrigation as dry conditions are favorable for harvesting.",
-          },
-          {
-            crop: "Rice",
-            stage: "Sowing",
-            advice:
-              "Prepare nursery beds for rice cultivation. The upcoming rainfall on Friday will be beneficial for sowing.",
-          },
-          {
-            crop: "Vegetables",
-            stage: "Growth",
-            advice:
-              "Increase irrigation frequency due to rising temperatures. Consider applying mulch to retain soil moisture.",
-          },
-        ],
-      });
+      };
+
+      setWeatherData(weatherInfo);
+
+      // Get AI-generated advisory
+      const aiAdvisory = await getWeatherAdvisory(weatherInfo);
+      if (aiAdvisory) {
+        setAdvisory(aiAdvisory);
+      }
     } catch (error) {
       console.error("Error fetching weather data:", error);
     } finally {
@@ -201,30 +194,6 @@ export function WeatherDashboard() {
                 </div>
               </CardContent>
             </Card>
-
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle>Weather Alerts</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {weatherData.alerts.map((alert: any, index: number) => (
-                    <div
-                      key={index}
-                      className="flex items-start gap-3 p-3 rounded-lg bg-muted"
-                    >
-                      {alert.icon}
-                      <div>
-                        <h4 className="font-medium">{alert.type}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {alert.message}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           </div>
 
           <div className="grid grid-cols-1 gap-6">
@@ -269,12 +238,12 @@ export function WeatherDashboard() {
                     Personalized Crop Advisory
                   </h3>
                   <p className="text-muted-foreground">
-                    Recommendations based on current weather conditions and crop
-                    growth stages
+                    AI-generated recommendations based on current weather
+                    conditions
                   </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {weatherData.advisory.map(
+                  {advisory?.advisory.map(
                     (item: AdvisoryItem, index: number) => (
                       <Card key={index}>
                         <CardContent className="pt-6">
@@ -300,8 +269,8 @@ export function WeatherDashboard() {
                     Irrigation Planning
                   </h3>
                   <p className="text-muted-foreground">
-                    Optimize water usage based on weather forecasts and soil
-                    conditions
+                    AI-generated irrigation recommendations based on weather and
+                    soil conditions
                   </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -313,36 +282,27 @@ export function WeatherDashboard() {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
-                        <div className="flex justify-between items-center">
-                          <span>Field 1 (Wheat)</span>
-                          <div className="w-1/2 h-2 bg-muted rounded-full overflow-hidden">
+                        {advisory?.irrigation.soilMoisture.map(
+                          (item, index) => (
                             <div
-                              className="h-full bg-blue-500 rounded-full"
-                              style={{ width: "65%" }}
-                            ></div>
-                          </div>
-                          <span className="text-sm font-medium">65%</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span>Field 2 (Rice)</span>
-                          <div className="w-1/2 h-2 bg-muted rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-blue-500 rounded-full"
-                              style={{ width: "80%" }}
-                            ></div>
-                          </div>
-                          <span className="text-sm font-medium">80%</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span>Field 3 (Vegetables)</span>
-                          <div className="w-1/2 h-2 bg-muted rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-blue-500 rounded-full"
-                              style={{ width: "45%" }}
-                            ></div>
-                          </div>
-                          <span className="text-sm font-medium">45%</span>
-                        </div>
+                              key={index}
+                              className="flex justify-between items-center"
+                            >
+                              <span>
+                                {item.field} ({item.crop})
+                              </span>
+                              <div className="w-1/2 h-2 bg-muted rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-blue-500 rounded-full"
+                                  style={{ width: `${item.moisture}%` }}
+                                ></div>
+                              </div>
+                              <span className="text-sm font-medium">
+                                {item.moisture}%
+                              </span>
+                            </div>
+                          )
+                        )}
                       </div>
                     </CardContent>
                   </Card>
@@ -354,27 +314,19 @@ export function WeatherDashboard() {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
-                        <div className="p-3 rounded-lg bg-muted">
-                          <h4 className="font-medium">Field 1 (Wheat)</h4>
-                          <p className="text-sm">
-                            No irrigation needed for the next 3 days. Soil
-                            moisture is adequate.
-                          </p>
-                        </div>
-                        <div className="p-3 rounded-lg bg-muted">
-                          <h4 className="font-medium">Field 2 (Rice)</h4>
-                          <p className="text-sm">
-                            Maintain current water levels. Expected rainfall on
-                            Friday will supplement.
-                          </p>
-                        </div>
-                        <div className="p-3 rounded-lg bg-muted">
-                          <h4 className="font-medium">Field 3 (Vegetables)</h4>
-                          <p className="text-sm">
-                            Irrigate today. Soil moisture is below optimal
-                            levels for vegetable growth.
-                          </p>
-                        </div>
+                        {advisory?.irrigation.recommendations.map(
+                          (item, index) => (
+                            <div
+                              key={index}
+                              className="p-3 rounded-lg bg-muted"
+                            >
+                              <h4 className="font-medium">
+                                {item.field} ({item.crop})
+                              </h4>
+                              <p className="text-sm">{item.advice}</p>
+                            </div>
+                          )
+                        )}
                       </div>
                     </CardContent>
                   </Card>
@@ -391,3 +343,5 @@ export function WeatherDashboard() {
     </div>
   );
 }
+
+export default WeatherDashboard;
