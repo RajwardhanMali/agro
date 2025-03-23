@@ -4,8 +4,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { MarketOverview } from "@/components/market-overview";
 import { PricesTab } from "@/components/tabs/PricesTab";
-import { SellersTab } from "@/components/tabs/SellersTab";
-import { SellTab } from "@/components/tabs/SellTab";
+
 import {
   Card,
   CardContent,
@@ -15,7 +14,6 @@ import {
 } from "@/components/ui/card";
 import { useState } from "react";
 import trendsData from "@/constants/trends.json";
-import { TabsContent, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MarketTrends } from "@/components/market-trends";
 import {
   Select,
@@ -25,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useSession } from "next-auth/react";
+import AnalysisSection from "@/components/analysis-section";
 
 export default function MarketPage() {
   const states = [
@@ -81,28 +80,7 @@ export default function MarketPage() {
           </Card>
         </div>
         <PricesTab states={states} commodities={commodities} />
-        {/* <Tabs defaultValue="prices" className="mb-8">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="prices">Mandi Prices</TabsTrigger>
-            {session?.user.role === "vendor" ? (
-              <TabsTrigger value="sellers">Sellers</TabsTrigger>
-            ) : (
-              <TabsTrigger value="sell">Sell Your Produce</TabsTrigger>
-            )}
-          </TabsList>
-          <TabsContent value="prices">
-            <PricesTab states={states} commodities={commodities} />
-          </TabsContent>
-          {session?.user.role === "vendor" ? (
-            <TabsContent value="sellers">
-              <SellersTab />
-            </TabsContent>
-          ) : (
-            <TabsContent value="sell">
-              <SellTab commodities={commodities} />
-            </TabsContent>
-          )}
-        </Tabs> */}
+        <AnalysisSection />
       </div>
       <Footer />
     </main>
