@@ -21,6 +21,10 @@ export function SchemesDashboard() {
   const [stateFilter, setStateFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
 
+  const [farmerCategory, setFarmerCategory] = useState("small");
+  const [selectedState, setSelectedState] = useState("all");
+  const [annualIncome, setAnnualIncome] = useState("<100000");
+
   // Mock data - in a real app, this would come from an API
   const schemes = [
     {
@@ -157,6 +161,24 @@ export function SchemesDashboard() {
 
   // Get unique states for filter
   const states = Array.from(new Set(schemes.map((scheme) => scheme.state)));
+
+  // Filter schemes based on eligibility inputs
+  const eligibleSchemes = schemes.filter((scheme) => {
+    const matchesState =
+      selectedState === "all" || scheme.state.toLowerCase() === selectedState;
+    const matchesIncome =
+      annualIncome === "<100000" ||
+      (annualIncome === "100000-300000" &&
+        scheme.eligibility.includes("₹1,00,000")) ||
+      (annualIncome === "300000-500000" &&
+        scheme.eligibility.includes("₹3,00,000")) ||
+      (annualIncome === ">500000" && scheme.eligibility.includes("₹5,00,000"));
+    const matchesCategory =
+      farmerCategory === "all" ||
+      scheme.eligibility.toLowerCase().includes(farmerCategory);
+
+    return matchesState && matchesIncome && matchesCategory;
+  });
 
   return (
     <div className="space-y-6">
@@ -377,12 +399,15 @@ export function SchemesDashboard() {
                     <label className="text-sm font-medium">
                       Farmer Category
                     </label>
-                    <Select defaultValue="small">
+                    <Select
+                      value={farmerCategory}
+                      onValueChange={setFarmerCategory}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="marginal\">
+                        <SelectItem value="marginal">
                           Marginal Farmer ({"< 1 hectare"})
                         </SelectItem>
                         <SelectItem value="small">
@@ -400,39 +425,30 @@ export function SchemesDashboard() {
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium">State</label>
-                    <Select defaultValue="punjab">
+                    <Select
+                      value={selectedState}
+                      onValueChange={setSelectedState}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select state" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="punjab">Punjab</SelectItem>
-                        <SelectItem value="haryana">Haryana</SelectItem>
-                        <SelectItem value="up">Uttar Pradesh</SelectItem>
-                        <SelectItem value="mp">Madhya Pradesh</SelectItem>
-                        <SelectItem value="maharashtra">Maharashtra</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Crops Grown</label>
-                    <Select defaultValue="wheat">
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select primary crop" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="wheat">Wheat</SelectItem>
-                        <SelectItem value="rice">Rice</SelectItem>
-                        <SelectItem value="pulses">Pulses</SelectItem>
-                        <SelectItem value="vegetables">Vegetables</SelectItem>
-                        <SelectItem value="fruits">Fruits</SelectItem>
+                        <SelectItem value="all">All States</SelectItem>
+                        {states.map((state) => (
+                          <SelectItem key={state} value={state.toLowerCase()}>
+                            {state}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Annual Income</label>
-                    <Select defaultValue="100000-300000">
+                    <Select
+                      value={annualIncome}
+                      onValueChange={setAnnualIncome}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select income range" />
                       </SelectTrigger>
@@ -461,31 +477,17 @@ export function SchemesDashboard() {
                     <CheckCircle className="h-5 w-5 text-green-500" />
                     Based on your profile, you may be eligible for:
                   </h3>
-                  <ul className="space-y-2 pl-7 list-disc">
-                    <li>PM-KISAN</li>
-                    <li>Pradhan Mantri Fasal Bima Yojana</li>
-                    <li>Kisan Credit Card</li>
-                    <li>Punjab Farm Loan Waiver</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Need Help?</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-start gap-4">
-                <HelpCircle className="h-10 w-10 text-primary flex-shrink-0" />
-                <div>
-                  <p className="mb-4">
-                    Our AI assistant can help you navigate government schemes
-                    and check your eligibility. Ask any questions about
-                    agricultural subsidies and programs.
-                  </p>
-                  <Button>Chat with AI Assistant</Button>
+                  {eligibleSchemes.length > 0 ? (
+                    <ul className="space-y-2 pl-7 list-disc">
+                      {eligibleSchemes.map((scheme) => (
+                        <li key={scheme.id}>{scheme.name}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-muted-foreground">
+                      No schemes match your eligibility criteria.
+                    </p>
+                  )}
                 </div>
               </div>
             </CardContent>

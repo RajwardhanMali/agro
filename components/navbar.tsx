@@ -38,24 +38,29 @@ export function Navbar() {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-primary">AgriConnect</span>
+            <span className="text-xl font-bold text-primary">KisaanSaathi</span>
           </Link>
         </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                pathname === item.href && "text-primary"
-              )}
-            >
-              {item.name}
-            </Link>
-          ))}
+          {navItems.map(
+            (item) =>
+              (session?.user.role !== "vendor" ||
+                (item.name !== "Schemes" &&
+                  session?.user.role === "vendor")) && (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    "text-sm font-medium transition-colors hover:text-primary",
+                    pathname === item.href && "text-primary"
+                  )}
+                >
+                  {item.name}
+                </Link>
+              )
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="flex items-center gap-1">
@@ -101,14 +106,14 @@ export function Navbar() {
                 >
                   Logout
                 </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">
-                  Profile
+                <DropdownMenuItem className="cursor-pointer" asChild>
+                  <Link href={`/profile/${session.user.id}`}>Profile</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Button asChild className="hidden md:inline-flex">
-              <Link href="/login">Login / Register</Link>
+              <Link href="/login">Login</Link>
             </Button>
           )}
 
@@ -174,7 +179,7 @@ export function Navbar() {
                 ) : (
                   <Button asChild>
                     <Link href="/login" onClick={() => setIsOpen(false)}>
-                      Login / Register
+                      Login
                     </Link>
                   </Button>
                 )}

@@ -26,7 +26,7 @@ export async function HeroSection() {
                 <Button>Ai Chat Bot</Button>
               )}
               <Button size="lg" variant="outline" asChild>
-                <Link href="/about">Learn More</Link>
+                <Link href="/insights">Learn More</Link>
               </Button>
             </div>
           </div>

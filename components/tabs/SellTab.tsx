@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 interface SellTabProps {
   commodities: string[];
@@ -36,7 +37,7 @@ export function SellTab({ commodities }: SellTabProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!session) {
-      alert("You must be logged in to list your produce.");
+      toast.error("You must be logged in to list your produce.");
       return;
     }
 
@@ -51,7 +52,7 @@ export function SellTab({ commodities }: SellTabProps) {
       });
 
       if (response.ok) {
-        alert("Produce listed successfully!");
+        toast.success("Produce listed successfully!");
         setFormData({
           commodity: "",
           quantity: "",
@@ -61,11 +62,11 @@ export function SellTab({ commodities }: SellTabProps) {
         });
       } else {
         const error = await response.json();
-        alert(error.message || "Failed to list produce.");
+        toast.error(error.message || "Failed to list produce.");
       }
     } catch (error) {
       console.error("Error listing produce:", error);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }

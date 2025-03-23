@@ -2,43 +2,19 @@
 
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { MarketOverview } from "@/components/market-overview";
-import { PricesTab } from "@/components/tabs/PricesTab";
 import { SellersTab } from "@/components/tabs/SellersTab";
 import { SellTab } from "@/components/tabs/SellTab";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import { useState } from "react";
 import trendsData from "@/constants/trends.json";
 import { TabsContent, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MarketTrends } from "@/components/market-trends";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { useSession } from "next-auth/react";
 
 export default function MarketPlace() {
-  const states = [
-    "All States",
-    "Maharashtra",
-    "Punjab",
-    "Haryana",
-    "Uttar Pradesh",
-    "Madhya Pradesh",
-  ];
   const { data: session } = useSession();
 
   const commodities = trendsData.data.map((d) => d[1]);
-  const [selectedCommodity, setSelectedCommodity] = useState("Rice");
 
   return (
     <main className="min-h-screen flex flex-col">
