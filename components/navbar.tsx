@@ -13,10 +13,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
+  const pathname = usePathname();
 
   const navItems = [
     { name: "Market Prices", href: "/market" },
@@ -45,7 +48,10 @@ export function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className="text-sm font-medium transition-colors hover:text-primary"
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-primary",
+                pathname === item.href && "text-primary"
+              )}
             >
               {item.name}
             </Link>
@@ -59,7 +65,15 @@ export function Navbar() {
             <DropdownMenuContent>
               {moreItems.map((item) => (
                 <DropdownMenuItem key={item.name} asChild>
-                  <Link href={item.href}>{item.name}</Link>
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "text-sm font-medium transition-colors hover:text-primary",
+                      pathname === item.href && "text-primary"
+                    )}
+                  >
+                    {item.name}
+                  </Link>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -112,7 +126,10 @@ export function Navbar() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-sm font-medium transition-colors hover:text-primary"
+                    className={cn(
+                      "text-sm font-medium transition-colors hover:text-primary",
+                      pathname === item.href && "text-primary"
+                    )}
                     onClick={() => setIsOpen(false)}
                   >
                     {item.name}
@@ -123,7 +140,10 @@ export function Navbar() {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className="text-sm font-medium transition-colors hover:text-primary"
+                      className={cn(
+                        "text-sm font-medium transition-colors hover:text-primary",
+                        pathname === item.href && "text-primary"
+                      )}
                       onClick={() => setIsOpen(false)}
                     >
                       {item.name}

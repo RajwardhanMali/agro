@@ -7,6 +7,7 @@ export default function AnalysisSection() {
     { month: string; averagePrice: number }[]
   >([]);
   const [yearlyData, setYearlyData] = useState([]);
+  const [loading, setLoading] = useState(true); // Added loading state
 
   useEffect(() => {
     async function fetchData() {
@@ -78,11 +79,33 @@ export default function AnalysisSection() {
         setYearlyData(yearlyChartData);
       } catch (error) {
         console.error("Error fetching CSV data:", error);
+      } finally {
+        setLoading(false); // Set loading to false after data is fetched
       }
     }
 
     fetchData();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="space-y-8">
+        <h1 className="text-2xl font-bold">Market Analysis</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div>
+            <h2 className="text-lg font-semibold mb-4">2025 Monthly Trends</h2>
+            <div className="h-64 bg-gray-200 animate-pulse rounded-lg"></div>{" "}
+            {/* Skeleton */}
+          </div>
+          <div className="mt-4 ">
+            <h2 className="text-lg font-semibold  mb-0.5">2024 Monthly Trends</h2>
+            <div className="h-64 bg-gray-200 animate-pulse rounded-lg"></div>{" "}
+            {/* Skeleton */}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">

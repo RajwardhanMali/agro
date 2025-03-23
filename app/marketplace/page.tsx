@@ -52,25 +52,27 @@ export default function MarketPlace() {
           </p>
         </div>
 
-        <Tabs defaultValue="sellers" className="mb-8">
-          <TabsList className="grid w-full grid-cols-1">
-            {session?.user.role === "vendor" ? (
+        {session?.user.role === "vendor" ? (
+          <Tabs defaultValue="sellers" className="mb-8">
+            <TabsList className="grid w-full grid-cols-1">
               <TabsTrigger value="sellers">Sellers</TabsTrigger>
-            ) : (
-              <TabsTrigger value="sell">Sell Your Produce</TabsTrigger>
-            )}
-          </TabsList>
+            </TabsList>
 
-          {session?.user.role === "vendor" ? (
             <TabsContent value="sellers">
               <SellersTab />
             </TabsContent>
-          ) : (
+          </Tabs>
+        ) : (
+          <Tabs defaultValue="sell" className="mb-8">
+            <TabsList className="grid w-full grid-cols-1">
+              <TabsTrigger value="sell">Sell Your Produce</TabsTrigger>
+            </TabsList>
+
             <TabsContent value="sell">
               <SellTab commodities={commodities} />
             </TabsContent>
-          )}
-        </Tabs>
+          </Tabs>
+        )}
       </div>
       <Footer />
     </main>
