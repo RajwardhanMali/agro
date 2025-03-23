@@ -29,6 +29,7 @@ export function SchemesDashboard() {
   const schemes = [
     {
       id: 1,
+      href: "https://pmkisan.gov.in/",
       name: "PM-KISAN",
       description:
         "Income support of ₹6,000 per year in three equal installments to all land holding farmer families.",
@@ -40,6 +41,7 @@ export function SchemesDashboard() {
     },
     {
       id: 2,
+      href: "https://pmfby.gov.in/",
       name: "Pradhan Mantri Fasal Bima Yojana",
       description:
         "Crop insurance scheme to provide financial support to farmers suffering crop loss/damage due to unforeseen events.",
@@ -51,6 +53,7 @@ export function SchemesDashboard() {
     },
     {
       id: 3,
+      href: "/https://www.myscheme.gov.in/schemes/kcc",
       name: "Kisan Credit Card",
       description:
         "Provides farmers with affordable credit for their agricultural needs.",
@@ -62,6 +65,7 @@ export function SchemesDashboard() {
     },
     {
       id: 4,
+      href: "/https://www.india.gov.in/spotlight/soil-health-card#tab=tab-1",
       name: "Soil Health Card Scheme",
       description:
         "Provides information on soil health to farmers to help them improve productivity through judicious use of inputs.",
@@ -73,6 +77,7 @@ export function SchemesDashboard() {
     },
     {
       id: 5,
+      href: "/https://nmsa.dac.gov.in/",
       name: "National Mission for Sustainable Agriculture",
       description:
         "Promotes sustainable agriculture through climate change adaptation measures.",
@@ -84,6 +89,7 @@ export function SchemesDashboard() {
     },
     {
       id: 6,
+      href: "https://sarkariyojana.com/punjab-debt-waiver-scheme/",
       name: "Punjab Farm Loan Waiver",
       description:
         "Waiver of agricultural loans for small and marginal farmers.",
@@ -95,6 +101,7 @@ export function SchemesDashboard() {
     },
     {
       id: 7,
+      href: "https://vijaykarnataka.com/government-policy/state/krishi-yantra-dhare-scheme-providing-subsidy-to-farm-machinery-in-karnataka/articleshow/90340369.cms",
       name: "Karnataka Krishi Yantra Dhare",
       description:
         "Subsidy on purchase of agricultural implements and machinery.",
@@ -106,6 +113,7 @@ export function SchemesDashboard() {
     },
     {
       id: 8,
+      href: "http://mrsac.maharashtra.gov.in/jalyukt/",
       name: "Maharashtra Jalyukt Shivar Abhiyan",
       description: "Water conservation scheme to make villages drought-proof.",
       category: "Water Conservation",
@@ -119,6 +127,7 @@ export function SchemesDashboard() {
   const applications = [
     {
       id: 101,
+      href: "/",
       scheme: "PM-KISAN",
       appliedDate: "2025-02-15",
       status: "Approved",
@@ -127,6 +136,7 @@ export function SchemesDashboard() {
     },
     {
       id: 102,
+      href: "/",
       scheme: "Pradhan Mantri Fasal Bima Yojana",
       appliedDate: "2025-03-10",
       status: "Pending",
@@ -134,6 +144,7 @@ export function SchemesDashboard() {
     },
     {
       id: 103,
+      href: "/",
       scheme: "Kisan Credit Card",
       appliedDate: "2025-01-20",
       status: "Approved",
@@ -270,12 +281,10 @@ export function SchemesDashboard() {
                             </div>
                             <div className="flex flex-row md:flex-col gap-2 justify-end">
                               <Button size="sm" asChild>
-                                <Link href={`/schemes/${scheme.id}/apply`}>
-                                  Apply Now
-                                </Link>
+                                <Link href={`${scheme.href}`}>Apply Now</Link>
                               </Button>
                               <Button variant="outline" size="sm" asChild>
-                                <Link href={`/schemes/${scheme.id}`}>
+                                <Link href={`${scheme.href}`}>
                                   View Details
                                 </Link>
                               </Button>
