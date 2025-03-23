@@ -10,7 +10,7 @@ import { Toaster } from "@/components/ui/sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Agri Connect - A Unified Platform for Farmers",
+  title: "KisaanSaathi - A Unified Platform for Farmers",
   description: "Empowering Indian farmers with digital solutions",
 };
 

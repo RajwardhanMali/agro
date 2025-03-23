@@ -283,14 +283,14 @@ const ProfilePage = () => {
                                         {item.commodity}
                                       </h4>
                                       <p className="text-sm text-muted-foreground">
-                                        {item.quantity}kg available
+                                        {item.quantity}quintals available
                                       </p>
                                     </div>
                                     <Badge
                                       variant="outline"
                                       className="bg-green-50 text-green-700 hover:bg-green-50"
                                     >
-                                      ₹{item.price}/kg
+                                      ₹{item.price}/quintals
                                     </Badge>
                                   </div>
                                 </CardContent>

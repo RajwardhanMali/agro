@@ -278,7 +278,7 @@ const Register = () => {
               </form>
               <div className="relative hidden bg-muted md:block">
                 <img
-                  src="https://kzmphjpz4a4hyi0s2smy.lite.vusercontent.net/placeholder.svg?height=400&width=600"
+                  src="https://img.freepik.com/free-photo/digital-environment-scene_23-2151873119.jpg?t=st=1742704914~exp=1742708514~hmac=dac8d8112b0837b97747f8d536c25573a5a8603a8a65098841b6121954cd62d4&w=740"
                   alt="Image"
                   className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
                 />

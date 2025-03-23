@@ -52,7 +52,7 @@ export function FeatureSection() {
     },
     {
       icon: <Video className="h-10 w-10 text-primary" />,
-      href: "/Insights",
+      href: "/insights",
       title: "Insights & Digital Literacy",
       description:
         "Video tutorials and live webinars in regional languages. Voice assistant for non-literate farmers.",

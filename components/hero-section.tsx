@@ -23,7 +23,9 @@ export async function HeroSection() {
                   <Link href="/register">Get Started</Link>
                 </Button>
               ) : (
-                <Button>Ai Chat Bot</Button>
+                <Button asChild>
+                  <Link href="/marketplace">Market Place</Link>
+                </Button>
               )}
               <Button size="lg" variant="outline" asChild>
                 <Link href="/insights">Learn More</Link>
@@ -33,7 +35,7 @@ export async function HeroSection() {
           <div className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden shadow-xl">
             <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-yellow-500/20 z-10" />
             <img
-              src="https://kzmphjpz4a4hyi0s2smy.lite.vusercontent.net/placeholder.svg?height=400&width=600"
+              src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="Indian farmers using digital technology"
               className="w-full h-full object-cover"
             />

@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { User, MapPin, Calendar, Package } from "lucide-react";
 import { format } from "date-fns";
+import Link from "next/link";
 
 interface Seller {
   commodity: string;
@@ -79,8 +80,8 @@ export function SellersList({ sellers }: { sellers: Seller[] }) {
                   </p>
                 </div>
               </div>
-              <Button size="sm" className="w-full mt-4">
-                Contact Seller
+              <Button size="sm" className="w-full mt-4" asChild>
+                <Link href={`tel:${seller.farmer.phone}`}>Contact Seller</Link>
               </Button>
             </CardContent>
           </Card>
